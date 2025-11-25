@@ -54,6 +54,11 @@ public class TestBase {
     public static String attachPageSource() {
         return WebDriverRunner.source();
     }
+
+    @Attachment(value = "Console Logs", type = "text/plain", fileExtension = ".txt")
+    public static String attachConsoleLogs() {
+        return String.join("\n", Selenide.getWebDriverLogs("browser"));
+    }
     // webdriver().driver().source() - получает полный HTML-код страницы, включая весь отрендеренный DOM
     // attachment("Source", ...) - создает вложение в Allure-отчет с названием "Source" и полученным HTML-содержимым
     // attachment("Source", webdriver().driver().source());
