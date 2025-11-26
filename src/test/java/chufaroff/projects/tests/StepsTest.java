@@ -5,6 +5,7 @@ import chufaroff.projects.pages.TestBase;
 import chufaroff.projects.pages.WebStepsPage;
 import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.exist;
@@ -26,6 +27,7 @@ public class StepsTest extends TestBase {
     @Test
     @Link(name = "Testing", url = "https://github.com/")
     @DisplayName("Проверка наличия вкладки Issue с номером #3 в конкретном репозитории")
+    @Tag("Selenide Repository")
     void testLambdaStep() {
 
         step("Открываем главную страницу", () -> {
@@ -64,6 +66,7 @@ public class StepsTest extends TestBase {
     @Test
     @Link(name = "Testing", url = "https://github.com/")
     @DisplayName("Проверка наличия вкладки Issue с номером #3 в конкретном репозитории")
+    @Tag("Selenide Repository")
     void testAnnotatedStep() {
         WebStepsPage webSteps = new WebStepsPage();
 
