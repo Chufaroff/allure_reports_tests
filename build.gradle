@@ -48,7 +48,7 @@ tasks.withType(Test) {
 
 task selenide_steps_test(type: Test) {
     useJUnitPlatform {
-        includeTags("Selenide Repository")
+        includeTags("SelenideRepository")
     }
 
     test {
