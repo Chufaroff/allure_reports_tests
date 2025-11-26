@@ -27,7 +27,7 @@ public class StepsTest extends TestBase {
     @Test
     @Link(name = "Testing", url = "https://github.com/")
     @DisplayName("Проверка наличия вкладки Issue с номером #3 в конкретном репозитории")
-    @Tag("Selenide Repository")
+    @Tag("SelenideRepository")
     void testLambdaStep() {
 
         step("Открываем главную страницу", () -> {
@@ -66,7 +66,7 @@ public class StepsTest extends TestBase {
     @Test
     @Link(name = "Testing", url = "https://github.com/")
     @DisplayName("Проверка наличия вкладки Issue с номером #3 в конкретном репозитории")
-    @Tag("Selenide Repository")
+    @Tag("SelenideRepository")
     void testAnnotatedStep() {
         WebStepsPage webSteps = new WebStepsPage();
 
