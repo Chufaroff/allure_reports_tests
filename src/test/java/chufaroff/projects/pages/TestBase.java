@@ -1,5 +1,6 @@
 package chufaroff.projects.pages;
 
+import chufaroff.projects.helpers.Attachment;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.BrowserPerTestStrategyExtension;
@@ -41,6 +42,10 @@ public class TestBase {
 
     @AfterEach
     void afterEach() {
+        Attachment.screenshotAs("Screenshot");
+        Attachment.pageSource();
+        Attachment.browserConsoleLogs();
+        Attachment.addVideo();
         Selenide.closeWebDriver();
     }
 }
