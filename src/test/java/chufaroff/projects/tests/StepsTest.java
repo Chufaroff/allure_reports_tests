@@ -50,6 +50,13 @@ public class StepsTest extends TestBase {
         step("Проверяем наличие Issue с номером " + ISSUE, () -> {
             $(withText("#" + ISSUE)).should(exist);
         });
+
+        step("Create file attachments", () -> {
+            Attachment.screenshotAs("Screenshot");
+            Attachment.pageSource();
+            Attachment.browserConsoleLogs();
+            Attachment.addVideo();
+        });
     }
 
     @Test
@@ -64,5 +71,10 @@ public class StepsTest extends TestBase {
         webSteps.clickOnRepositoryLink(REPOSITORY);
         webSteps.openIssueTab();
         webSteps.shouldSeeIssueWithNumber(ISSUE);
+
+        Attachment.screenshotAs("Screenshot");
+        Attachment.pageSource();
+        Attachment.browserConsoleLogs();
+        Attachment.addVideo();
     }
 }

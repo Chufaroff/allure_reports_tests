@@ -35,8 +35,19 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    systemProperty "file.encoding", "UTF-8"
+    systemProperty "sun.jnu.encoding", "UTF-8"
+}
+
 tasks.withType(Test) {
     useJUnitPlatform()
+    systemProperties System.getProperties() // Передаем все системные свойства в тесты
 
     testLogging {
         lifecycle {
@@ -49,6 +60,10 @@ tasks.withType(Test) {
 task selenide_steps_test(type: Test) {
     useJUnitPlatform {
         includeTags("SelenideRepository")
+    }
+
+    doFirst {
+        delete 'build/allure-results'
     }
 
     test {

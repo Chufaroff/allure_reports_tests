@@ -1,12 +1,9 @@
 package chufaroff.projects.pages;
 
-import chufaroff.projects.helpers.Attachment;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.junit5.BrowserPerTestStrategyExtension;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -17,36 +14,41 @@ public class TestBase {
 
     @BeforeAll
     static void setUp() {
-        // Конфигурация Selenide
-        Configuration.browserSize = "1920x1080";
-        Configuration.browser = "chrome";
+        // Получаем параметры из системных свойств (Jenkins передает их как -D параметры)
+        String remoteUrl = System.getProperty("remote.url", "https://user1:1234@selenoid.autotests.cloud/wd/hub");
+        String baseUrl = System.getProperty("base.url", "https://github.com/");
+        String browser = System.getProperty("browser", "chrome");
+        // String browserVersion = System.getProperty("browser.version", "100.0");
+        String browserSize = System.getProperty("browser.size", "1920x1080");
+
+        // Настройка Selenide
+        Configuration.baseUrl = baseUrl;
+        Configuration.browserSize = browserSize;
+        Configuration.browser = browser;
+        // Configuration.browserVersion = browserVersion;
+        Configuration.timeout = 10000;
         Configuration.pageLoadStrategy = "eager";
-        Configuration.timeout = 5000;
-        Configuration.headless = false; // если нужен видимый браузер
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub";
+        Configuration.holdBrowserOpen = false;
 
-        // Настройка Allure
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(true)
-                .savePageSource(true)
-                .includeSelenideSteps(true)
-        );
 
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("selenoid:options", Map.<String, Object>of(
-                "enableVNC", true,
-                "enableVideo", true
-        ));
-        Configuration.browserCapabilities = capabilities;
-    }
 
-    @AfterEach
-    void afterEach() {
-        Attachment.screenshotAs("Screenshot");
-        Attachment.pageSource();
-        Attachment.browserConsoleLogs();
-        Attachment.addVideo();
-        Selenide.closeWebDriver();
+            // Настройка Allure
+            SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                    .screenshots(true)
+                    .savePageSource(true)
+                    .includeSelenideSteps(true)
+            );
+
+        if (remoteUrl != null && !remoteUrl.isEmpty()) {
+            Configuration.remote = remoteUrl;
+
+            DesiredCapabilities capabilities = new DesiredCapabilities();
+            capabilities.setCapability("selenoid:options", Map.<String, Object>of(
+                    "enableVNC", true,
+                    "enableVideo", true
+            ));
+            Configuration.browserCapabilities = capabilities;
+        }
     }
 }
 
